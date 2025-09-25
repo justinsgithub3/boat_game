@@ -129,8 +129,15 @@ export default class MotorBoat {
         p.rotate(this.motorAngle);  
         p.fill(0); // color
         p.rect(0, 0, 15, 10); // size
-
         p.pop();
+
+        // person
+        p.push();
+        p.translate(0, -4);
+        p.fill(255, 203, 164);
+        p.ellipse(0, 0, 10, 10)
+        p.pop()
+
         p.pop();
     }
 
