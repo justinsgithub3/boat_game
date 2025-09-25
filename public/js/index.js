@@ -124,7 +124,7 @@ function mobileVersion() {
 
         p.setup = function() {       // size of canvas
 
-            let canvas = p.createCanvas(1000, 700); // create canvas elelement
+            let canvas = p.createCanvas(window.innerWidth, window.innerHeight); // create canvas elelement
             canvas.parent("canvas-target");         // append canvas to div element
             // create physics engine from matter
             engine = Engine.create();
@@ -163,16 +163,16 @@ function mobileVersion() {
 
             // docks
             p.push();
-            p.translate(500, 400);       // position of the dock center
+            p.translate(window.innerWidth/2, window.innerHeight/2);       // position of the dock center
             p.fill(150, 100, 60);
             p.rect(0, 0, 400, 20);
             p.pop();
 
             // Dock 2
             p.push();
-            p.translate(500, 485);       // position of the dock center
+            p.translate(window.innerWidth/2, window.innerHeight/2);       // position of the dock center
             p.fill(150, 100, 60);
-            p.rect(0, 0, 20, 150);
+            p.rect(0, 0, 20, 80);
             p.pop();
 
 
@@ -196,7 +196,17 @@ function mobileVersion() {
         canvasTarget.appendChild(leftButton);
         canvasTarget.appendChild(rightButton);
         
-        console.log('right before events...')
+        // add id atttributes
+        forwardButton.setAttribute("id", "forward-button");
+        reverseButton.setAttribute("id", "reverse-button");
+        leftButton.setAttribute("id", "left-button");
+        rightButton.setAttribute("id", "right-button");
+
+        // add class attributes
+        forwardButton.setAttribute("class", "game-button");
+        reverseButton.setAttribute("class", "game-button");
+        leftButton.setAttribute("class", "game-button");
+        rightButton.setAttribute("class", "game-button");
 
         // ------- add event listeners to each button -------
 
