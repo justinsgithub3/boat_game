@@ -211,8 +211,9 @@ function mobileVersion() {
         // ------- add event listeners to each button -------
 
         // forward press
-        forwardButton.addEventListener('touchstart', () => {
+        forwardButton.addEventListener('touchstart', (e) => {
             console.log(`pressed: ${p.UP_ARROW}`);
+            e.preventDefault(); // no right-click dialog comes up to mess up the experience
             boat1.checkForPress(p.UP_ARROW); // sending fake action to simulate forward key press
         });
         // forward release
@@ -221,8 +222,9 @@ function mobileVersion() {
             boat1.checkForRelease(p.UP_ARROW); // sending fake action to simulate forward key press
         });
         // reverse press
-        reverseButton.addEventListener('touchstart', () => {
+        reverseButton.addEventListener('touchstart', (e) => {
             console.log(`pressed: ${p.DOWN_ARROW}`);
+            e.preventDefault();
             boat1.checkForPress(p.DOWN_ARROW); // sending fake action to simulate forward key press
         }); 
         // reverse release
@@ -231,8 +233,9 @@ function mobileVersion() {
             boat1.checkForRelease(p.DOWN_ARROW); // sending fake action to simulate forward key press
         });
         // left press
-        leftButton.addEventListener('touchstart', () => {
+        leftButton.addEventListener('touchstart', (e) => {
             console.log(`pressed: ${p.LEFT_ARROW}`);
+            e.preventDefault();
             boat1.checkForPress(p.LEFT_ARROW); // sending fake action to simulate forward key press
         }); 
         // left release
@@ -241,8 +244,9 @@ function mobileVersion() {
             boat1.checkForRelease(p.LEFT_ARROW); // sending fake action to simulate forward key press
         });
         // right press
-        rightButton.addEventListener('touchstart', () => {
+        rightButton.addEventListener('touchstart', (e) => {
             console.log(`pressed: ${p.RIGHT_ARROW}`);
+            e.preventDefault();
             boat1.checkForPress(p.RIGHT_ARROW); // sending fake action to simulate forward key press
         }); 
         // right release
