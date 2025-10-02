@@ -37,6 +37,9 @@ function computerVersion() {
     let sketch = new p5((p) => {
         // declare boat var.
         let boat1;
+        // declare rigid body vars. for docks
+        let dock1, dock2;
+
 
         // declare engine and composite vars;
         let engine, world;
@@ -61,6 +64,13 @@ function computerVersion() {
             boat1.createBody(Bodies);
             // add body to world
             Composite.add(world, [boat1.body]);
+
+            // add rigid body to docks
+            // creates rigid body for the boat1 object using Matter.Bodies module
+            dock1 = Bodies.rectangle(500, 400, 400, 20, {isStatic: true}); // static param. makes the dock immovable
+            dock2 = Bodies.rectangle(500, 485, 20, 150, {isStatic: true});
+            // add body to world
+            Composite.add(world, [dock1, dock2]);
         }
 
         p.draw = function() {
@@ -94,8 +104,6 @@ function computerVersion() {
             p.fill(150, 100, 60);
             p.rect(0, 0, 20, 150);
             p.pop();
-
-
         }
     
         p.keyPressed = function() { 
@@ -117,6 +125,8 @@ function mobileVersion() {
 
         // declare boat var.
         let boat1;
+        // declare rigid body dock variables
+        let dock1, dock2;
 
         // declare engine and composite vars;
         let engine, world;
@@ -141,6 +151,13 @@ function mobileVersion() {
             boat1.createBody(Bodies);
             // add body to world
             Composite.add(world, [boat1.body]);
+
+            // add rigid body to docks
+            // creates rigid body for the boat1 object using Matter.Bodies module
+            dock1 = Bodies.rectangle(window.innerWidth/2, window.innerHeight/2, 400, 20, {isStatic: true}); // static param. makes the dock immovable
+            dock2 = Bodies.rectangle(window.innerWidth/2, window.innerHeight/2, 20, 150, {isStatic: true});
+            // add body to world
+            Composite.add(world, [dock1, dock2]);
         }
 
         p.draw = function() {
@@ -157,7 +174,6 @@ function mobileVersion() {
 
             // draw boat with this p5 instance
             boat1.showDrawing(p);
-
 
             // docks!
 
