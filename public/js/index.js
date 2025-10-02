@@ -155,7 +155,7 @@ function mobileVersion() {
             // add rigid body to docks
             // creates rigid body for the boat1 object using Matter.Bodies module
             dock1 = Bodies.rectangle(window.innerWidth/2, window.innerHeight/2, 400, 20, {isStatic: true}); // static param. makes the dock immovable
-            dock2 = Bodies.rectangle(window.innerWidth/2, window.innerHeight/2, 20, 150, {isStatic: true});
+            dock2 = Bodies.rectangle(window.innerWidth/2, window.innerHeight/2, 20, 80, {isStatic: true});
             // add body to world
             Composite.add(world, [dock1, dock2]);
         }
