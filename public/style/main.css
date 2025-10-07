@@ -15,6 +15,10 @@ p {
   padding: 12px;
   text-align: center;
   background: #f4f4f4;
+  bottom: 0;
+  position:fixed;
+  width: 100%;
+  text-align: center;
 }
 
 .game-button {

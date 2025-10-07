@@ -15,10 +15,21 @@ const port = process.env.PORT || 8080;
 
 
 
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+app.get(['/', '/index'], (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'views/index.html'));
 })
 
+app.get('/survival', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'views/survival.html'));
+})
+
+app.get('/parking', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'views/parking.html'));
+})
+
+app.get('/explore', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'views/explore.html'));
+})
 
 
 app.listen(port, () => {
