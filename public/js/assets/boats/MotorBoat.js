@@ -1,7 +1,7 @@
 //import p5 from './p5-wrapper.js';
 
 export default class MotorBoat {
-    constructor(width, height, forwardKey, reverseKey, leftKey, rightKey) {
+    constructor(width, height, forwardKey, reverseKey, leftKey, rightKey, forwardSpeed=0.0009, reverseSpeed=-0.0002) {
 
         // passed to object instance parameters ------
 
@@ -14,14 +14,23 @@ export default class MotorBoat {
         this.reverseKey = reverseKey;
         this.leftKey = leftKey;
         this.rightKey = rightKey;
+
+        // -------- speeds ------
         
+        // forward speed constant
+        this.forwardSpeed = forwardSpeed;
+        // reverse speed constant
+        this.reverseSpeed = reverseSpeed;
+
+        // speed variable
+        this.forceSize = 0.000;
+
         // --------------------------------------------
 
         // store instance of rigid body here
         this.body;  
 
-        // speed
-        this.forceSize = 0.000;
+        
        
         // methods check these attributes to actually move the boat
         this.moveForward = false;
@@ -35,10 +44,10 @@ export default class MotorBoat {
     checkForPress(keyCode) {
         console.log(keyCode)
         if (keyCode === this.forwardKey) {
-            this.forceSize = 0.0009; // make this an attribute
+            this.forceSize = this.forwardSpeed; // make this an attribute
         };
         if (keyCode === this.reverseKey) {
-            this.forceSize = -0.0002; // make this an attribute
+            this.forceSize = this.reverseSpeed; // make this an attribute
         };
 
         if (keyCode === this.leftKey) {
@@ -128,7 +137,7 @@ export default class MotorBoat {
         // rotate motor drawing. Rotates relative to parent rectangle drawing ^ (the hull)
         p.rotate(this.motorAngle);  
         p.fill(0); // color
-        p.rect(0, 0, 15, 10); // size
+        p.rect(0, 0, this.width/3.3333, this.height/2.5); // size ------testing
         p.pop();
 
         // person
@@ -144,7 +153,7 @@ export default class MotorBoat {
     // pass Matter.Body module to method
     createBody(bodies) {
         // place boat at 0, 0 because placement of boat is not this methods job
-        this.body = bodies.rectangle(100, 100, this.width, this.height, {friction : .9, frictionAir : .05}); // verfied with matter-js docs -> width, height.
+        this.body = bodies.rectangle(100, 100, this.width, this.height, {friction : .0001, frictionAir : .05}); // verfied with matter-js docs -> width, height.
                                                                         // move friction outside of here
     }
 }

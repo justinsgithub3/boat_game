@@ -1,9 +1,9 @@
-// imports
-import MotorBoat from './assets/boats/MotorBoat.js';
-import p5 from './p5-wrapper.js';
+// import p5 and game engine
+import p5 from '../p5-wrapper.js';
 import { Engine, Composite, Bodies, Body } from 'matter-js';
 
-console.log('index bundle file is pointing here!');
+// import default boat
+import MotorBoat from '../assets/boats/MotorBoat.js';
 
 let deviceType;
 
@@ -68,7 +68,7 @@ function computerVersion() {
 
             // add rigid body to docks
             // creates rigid body for the boat1 object using Matter.Bodies module
-            dock1 = Bodies.rectangle(500, 400, 400, 20, {isStatic: true}); // static param. makes the dock immovable
+            dock1 = Bodies.rectangle(800, 400, 400, 20, {isStatic: true, friction: 0}); // static param. makes the dock immovable
             dock2 = Bodies.rectangle(500, 485, 20, 150, {isStatic: true});
             // add body to world
             Composite.add(world, [dock1, dock2]);
@@ -94,7 +94,7 @@ function computerVersion() {
 
             // docks
             p.push();
-            p.translate(500, 400);       // position of the dock center
+            p.translate(800, 400);       // position of the dock center
             p.fill(150, 100, 60);
             p.rect(0, 0, 400, 20);
             p.pop();
@@ -102,7 +102,7 @@ function computerVersion() {
             // Dock 2
             p.push();
             p.translate(500, 485);       // position of the dock center
-            p.fill(150, 100, 60);
+            p.fill(0);
             p.rect(0, 0, 20, 150);
             p.pop();
         }
@@ -303,10 +303,6 @@ function mobileVersion() {
             */
     });
 }
-
-
-
-
 
 
 

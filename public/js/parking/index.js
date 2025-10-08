@@ -1,9 +1,9 @@
-// imports
-import MotorBoat from './assets/boats/MotorBoat.js';
-import p5 from './p5-wrapper.js';
+// import p5 and game engine
+import p5 from '../p5-wrapper.js';
 import { Engine, Composite, Bodies, Body } from 'matter-js';
 
-console.log('index bundle file is pointing here!');
+// import default boat
+import MotorBoat from '../assets/boats/MotorBoat.js';
 
 let deviceType;
 
@@ -303,10 +303,6 @@ function mobileVersion() {
             */
     });
 }
-
-
-
-
 
 
 

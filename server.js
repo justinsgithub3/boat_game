@@ -14,7 +14,6 @@ const port = process.env.PORT || 8080;
 
 
 
-
 app.get(['/', '/index'], (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'views/index.html'));
 })
@@ -30,6 +29,11 @@ app.get('/parking', (req, res) => {
 app.get('/explore', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'views/explore.html'));
 })
+
+
+
+
+
 
 
 app.listen(port, () => {

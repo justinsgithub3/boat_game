@@ -10,7 +10,7 @@ html, body {
   flex: 1; /* take up all remaining space */
 }
 
-p {
+#contact-info {
   margin: 0;
   padding: 12px;
   text-align: center;

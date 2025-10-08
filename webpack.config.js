@@ -6,11 +6,17 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 export default {
-  entry: "./public/js/index.js",
+  entry: 
+    {
+      explore:  "./public/js/explore/index.js",
+      parking:  "./public/js/parking/index.js",
+      survival: "./public/js/survival/index.js",
+      index:    "./public/js/index.js"
+    },
   target: "web",
   output: {
     path: path.resolve(__dirname, "public/js"),
-    filename: "bundle.js"
+    filename: "bundles/[name].bundle.js"
   },
   module: {
     rules: [

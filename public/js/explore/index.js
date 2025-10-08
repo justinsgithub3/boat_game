@@ -1,9 +1,9 @@
-// imports
-import MotorBoat from './assets/boats/MotorBoat.js';
-import p5 from './p5-wrapper.js';
+// import p5 and game engine
+import p5 from '../p5-wrapper.js';
 import { Engine, Composite, Bodies, Body } from 'matter-js';
 
-console.log('index bundle file is pointing here!');
+// import default boat
+import MotorBoat from '../assets/boats/MotorBoat.js';
 
 let deviceType;
 
@@ -59,7 +59,7 @@ function computerVersion() {
             engine.gravity.y  = 0;
             
             // create boat instance : (width, height, up, down, left, right)
-            boat1 = new MotorBoat(50, 25, p.UP_ARROW, p.DOWN_ARROW, p.LEFT_ARROW, p.RIGHT_ARROW);
+            boat1 = new MotorBoat(30, 15, p.UP_ARROW, p.DOWN_ARROW, p.LEFT_ARROW, p.RIGHT_ARROW, 0.0001, -0.00005);
         
             // creates rigid body for the boat1 object using Matter.Bodies module
             boat1.createBody(Bodies);
@@ -146,7 +146,7 @@ function mobileVersion() {
             engine.gravity.y  = 0;
             
             // create boat instance : (width, height, up, down, left, right)
-            boat1 = new MotorBoat(50, 25, p.UP_ARROW, p.DOWN_ARROW, p.LEFT_ARROW, p.RIGHT_ARROW);
+            boat1 = new MotorBoat(30, 15, p.UP_ARROW, p.DOWN_ARROW, p.LEFT_ARROW, p.RIGHT_ARROW, 0.0001, -0.00005);
         
             // creates rigid body for the boat1 object using Matter.Bodies module
             boat1.createBody(Bodies);
@@ -303,10 +303,6 @@ function mobileVersion() {
             */
     });
 }
-
-
-
-
 
 
 
