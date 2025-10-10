@@ -16,6 +16,7 @@
     "@babel/preset-env": "^7.28.3",
     "babel-loader": "^10.0.0",
     "express": "^5.1.0",
+    "fs": "^0.0.1-security",
     "matter-js": "^0.20.0"
   },
   "devDependencies": {

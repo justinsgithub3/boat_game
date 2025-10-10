@@ -2,44 +2,144 @@
 import p5 from '../p5-wrapper.js';
 import { Engine, Composite, Bodies, Body } from 'matter-js';
 
+// testing levels
+import LevelBuilder from './assets/LevelBuilder.js';
+
 // import default boat
 import MotorBoat from '../assets/boats/MotorBoat.js';
 
-let deviceType;
+// create start button
+import createKeyLayout from '../utilities/keyLayout.js';
 
-const canvasTarget = document.getElementById("canvas-target");
+// game loop
+import gameLoop from './gameLoop.js';
+// game setup
+import gameSetup from './gameSetup.js';
+// retrieve level data from file system with this import
+import loadLevelData from './assets/loadLevel.js';
 
-// create element
-const buttonEle = document.createElement('button');
-buttonEle.textContent = 'press continue';
-canvasTarget.appendChild(buttonEle);
+// element the game is in
+//const canvasTarget = document.getElementById("canvas-target");
 
-// add event
-buttonEle.addEventListener("pointerup", (e) => {
-    console.log(e.pointerType) // returns mouse or touch ( laptop or mobile )
-    if (e.pointerType == 'touch') {
-        deviceType = 'mobile';
-        // remove button from canvas
-        buttonEle.remove();
-        // start game
-        mobileVersion();
-    } else { // already is laptop. Default
-        deviceType = 'laptop';
-        // remove button from canvas
-        buttonEle.remove();
-        // start game
-        computerVersion();
+/*
+async function loop(document) {
+    try {
+        await newButton(document);
+        console.log('this run')
+
+        await gameLoop();
     }
-    
+    catch (error) {
+        return Promise.reject(error)
+    }
+}
+*/
+
+document.addEventListener("DOMContentLoaded", async () => {
+    try {
+
+        // create a list of buttons with each level
+        // level data
+
+        // get number of levels
+        const response = await fetch('/levels');
+        // convert response to json
+        const jsonObj = await response.json()
+        // get count field
+        const levelCount = await jsonObj.count;
+
+        // buttons are placed inside the element - canvasTarget
+        const canvasTarget = document.getElementById("canvas-target");
+
+        // create a button for each level. The level number will be the buttons id
+        for (let i = 1; i <= levelCount; i++) {
+            
+            // create button - button is inside the canvas
+            const buttonEle = document.createElement('button');
+            // button text
+            buttonEle.textContent = `Level ${i}`;
+            // set button id
+            buttonEle.setAttribute("id", `level-${i}`);
+            // append element to element - canvasTarget
+            canvasTarget.appendChild(buttonEle);
+            // add a click event to every button
+            buttonEle.addEventListener("click", async (e) => {
+                await buttonClick(e);
+            })
+        }
+    }
+    catch (error) {
+        return Promise.reject(error)
+    }
 })
 
-function computerVersion() {
+
+async function buttonClick(e) {
+            // level data
+            let levelData;
+            try {
+                // get button Id             I left ids as level-# instead of just #. This makes styling the front-end easier.
+                const buttonId = e.currentTarget.id;
+                // parse id for level number
+                const levelNumber = buttonId.substr(buttonId.length - 1);
+                // json levelData
+                levelData = await loadLevelData(levelNumber);
+            }
+            catch (error) {
+                console.log(error, 'could not load level data');
+            }
+
+            // {..}
+
+            // clear all game buttons
+            const canvasTarget = document.getElementById("canvas-target");
+            canvasTarget.innerHTML = "";
+            
+            let sketch = new p5((p) => {
+                let boats = [];
+                let engine, world;
+                let level;
+                p.setup = async function() {
+                    [engine, world, level] = await gameSetup(p, levelData, level, boats, engine, world);
+            
+
+                    boats.forEach((boat) => {
+                        createKeyLayout(document, e, boat);
+                    })
+
+                
+
+                    console.log('level')
+                    console.log(level)
+                }
+                
+                
+                
+
+                console.log('boats array outside of game module:')
+                console.log(boats)
+                p.draw = async function() {
+                    await gameLoop(p, engine, world, level, boats);
+                }
+            })  
+}
+
+
+/*
+function async computerVersion() {
     console.log('this is only computer version')
     let sketch = new p5((p) => {
         // declare boat var.
         let boat1;
-        // declare rigid body vars. for docks
-        let dock1, dock2;
+
+        // test - level
+        let level;
+
+        let levelNumber = 1;
+
+        let levelJson = await loadLevel(levelNumber);
+    
+        console.log(levelJson)
 
 
         // declare engine and composite vars;
@@ -66,12 +166,20 @@ function computerVersion() {
             // add body to world
             Composite.add(world, [boat1.body]);
 
-            // add rigid body to docks
-            // creates rigid body for the boat1 object using Matter.Bodies module
-            dock1 = Bodies.rectangle(500, 400, 400, 20, {isStatic: true}); // static param. makes the dock immovable
-            dock2 = Bodies.rectangle(500, 485, 20, 150, {isStatic: true});
-            // add body to world
-            Composite.add(world, [dock1, dock2]);
+
+
+            // testing level
+            level = new LevelBuilder(levelJson);
+            console.log('here are the docks from json level')
+            for (let e of level.docks) {
+                console.log('each x:')
+                console.log(e.x)
+            }
+
+            level.buildBodies(Bodies);
+            level.appendBodies(Composite, world);
+
+        
         }
 
         p.draw = function() {
@@ -90,21 +198,10 @@ function computerVersion() {
             boat1.showDrawing(p);
 
 
-            // docks!
-
-            // docks
-            p.push();
-            p.translate(500, 400);       // position of the dock center
-            p.fill(150, 100, 60);
-            p.rect(0, 0, 400, 20);
-            p.pop();
-
-            // Dock 2
-            p.push();
-            p.translate(500, 485);       // position of the dock center
-            p.fill(150, 100, 60);
-            p.rect(0, 0, 20, 150);
-            p.pop();
+            // test
+            level.draw(p);
+    
+ 
         }
     
         p.keyPressed = function() { 
@@ -195,98 +292,7 @@ function mobileVersion() {
 
         }
 
-        // create buttons
-        const forwardButton = document.createElement('button');
-        forwardButton.textContent = '^';
-
-        const reverseButton = document.createElement('button');
-        reverseButton.textContent = 'v';
-
-        const leftButton = document.createElement('button');
-        leftButton.textContent = '<';
-
-        const rightButton = document.createElement('button');
-        rightButton.textContent = '>';
-
-        canvasTarget.appendChild(forwardButton);
-        canvasTarget.appendChild(reverseButton);
-        canvasTarget.appendChild(leftButton);
-        canvasTarget.appendChild(rightButton);
         
-        // add id atttributes
-        forwardButton.setAttribute("id", "forward-button");
-        reverseButton.setAttribute("id", "reverse-button");
-        leftButton.setAttribute("id", "left-button");
-        rightButton.setAttribute("id", "right-button");
-
-        // add class attributes
-        forwardButton.setAttribute("class", "game-button");
-        reverseButton.setAttribute("class", "game-button");
-        leftButton.setAttribute("class", "game-button");
-        rightButton.setAttribute("class", "game-button");
-
-        // ------- add event listeners to each button -------
-
-        // forward press
-        forwardButton.addEventListener('touchstart', (e) => {
-            console.log(`pressed: ${p.UP_ARROW}`);
-            e.preventDefault(); // no right-click dialog comes up to mess up the experience
-            boat1.checkForPress(p.UP_ARROW); // sending fake action to simulate forward key press
-        });
-        // forward release
-        forwardButton.addEventListener('touchend', () => {
-            console.log(`released: ${p.UP_ARROW}`);
-            boat1.checkForRelease(p.UP_ARROW); // sending fake action to simulate forward key press
-        });
-        // reverse press
-        reverseButton.addEventListener('touchstart', (e) => {
-            console.log(`pressed: ${p.DOWN_ARROW}`);
-            e.preventDefault();
-            boat1.checkForPress(p.DOWN_ARROW); // sending fake action to simulate forward key press
-        }); 
-        // reverse release
-        reverseButton.addEventListener('touchend', () => {
-            console.log(`released: ${p.DOWN_ARROW}`);
-            boat1.checkForRelease(p.DOWN_ARROW); // sending fake action to simulate forward key press
-        });
-        // left press
-        leftButton.addEventListener('touchstart', (e) => {
-            console.log(`pressed: ${p.LEFT_ARROW}`);
-            e.preventDefault();
-            boat1.checkForPress(p.LEFT_ARROW); // sending fake action to simulate forward key press
-        }); 
-        // left release
-        leftButton.addEventListener('touchend', () => {
-            console.log(`released: ${p.LEFT_ARROW}`);
-            boat1.checkForRelease(p.LEFT_ARROW); // sending fake action to simulate forward key press
-        });
-        // right press
-        rightButton.addEventListener('touchstart', (e) => {
-            console.log(`pressed: ${p.RIGHT_ARROW}`);
-            e.preventDefault();
-            boat1.checkForPress(p.RIGHT_ARROW); // sending fake action to simulate forward key press
-        }); 
-        // right release
-        rightButton.addEventListener('touchend', () => {
-            console.log(`released: ${p.RIGHT_ARROW}`);
-            boat1.checkForRelease(p.RIGHT_ARROW); // sending fake action to simulate forward key press
-        });
-
-        // ------ end of adding events for buttons ------
-
-
-        reverseButton.addEventListener('touch', () => {
-            boat1.checkForPress(p.DOWN_ARROW); // sending fake action to simulate forward key press
-            console.log(`pressed: ${p.UP_ARROW}`);
-        })
-        leftButton.addEventListener('touch', () => {
-
-        })
-        rightButton.addEventListener('touch', () => {
-            
-        })
-
-
 
         // replace these buttons with event handlers
         /*
@@ -300,10 +306,11 @@ function mobileVersion() {
             boat1.checkForRelease(event.which);
             console.log(`released: ${event.which}`)
         }
-            */
+            */ /*
     });
 }
 
 
+*/
 
 

@@ -1,6 +1,8 @@
 import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url'; 
+import { promises as fs} from 'fs'; // allows for async file reading
+
 
 const app = express();
 
@@ -30,9 +32,40 @@ app.get('/explore', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'views/explore.html'));
 })
 
+app.get('/level/:id', async (req, res) => {
+    const levelId = req.params.id;
+    const filePath = path.join(__dirname, 'src', `parking/levels/${levelId}.json`);
 
+    try { 
+        const data = await fs.readFile(filePath, 'utf8');
+        const jsonData = JSON.parse(data);
+        console.log(jsonData)
+        res.type('application/json').send(jsonData);
 
+    } catch (error) {
+        return res.status(404).json({error: 'Level not found' });
+    }
+})
 
+app.get('/levels', async (req, res) => {
+    const filePath = path.join(__dirname, 'src', `parking/levels`);
+
+    try { 
+        const files = await fs.readdir(filePath);
+        const fileCount = files.length;
+        console.log("Number of files in levels: ", fileCount);
+
+        // put file count in a json format
+        const levelCount = {"count": fileCount};
+
+        // send json to client
+        res.type('application/json').send(levelCount);
+
+    }
+    catch (error) {
+        return res.status(404).json({error: 'No levels found' });
+    }
+})
 
 
 
