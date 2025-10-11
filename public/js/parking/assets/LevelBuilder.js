@@ -5,7 +5,6 @@ export default class LevelBuilder {
     // constructor
     // attributes
     constructor(levelJson) {
-        console.log(levelJson)
         this.level = levelJson.id;
         this.name = levelJson.name;
         this.levelSize = levelJson.level_size;
@@ -13,7 +12,6 @@ export default class LevelBuilder {
         this.endLocation = levelJson.end_location;
 
         this.docks = levelJson.dock_locations.map(dockData => {
-            console.log('DockData:', dockData);
             return new DockBuilder(dockData);
         });
         
@@ -26,7 +24,6 @@ export default class LevelBuilder {
     }
     appendBodies(composite, world) {
         this.docks.forEach((dock) => {
-            console.log('Appending:', dock.body);
             composite.add(world, dock.body)
         });
             

@@ -18,10 +18,9 @@ import gameSetup from './gameSetup.js';
 // retrieve level data from file system with this import
 import loadLevelData from './assets/loadLevel.js';
 
-
+DeviceMotionEvent.requestPermission();
 document.addEventListener("DOMContentLoaded", async () => {
     try {
-
         // create a list of buttons with each level
         // level data
 
@@ -84,20 +83,24 @@ async function buttonClick(e) {
                 let engine, world;
                 let level;
                 p.setup = async function() {
-                    [engine, world, level] = await gameSetup(p, levelData, level, boats, engine, world);
-            
-                    const event = e; // makes it possible to pass touch or click event into loop below:
-                    boats.forEach((boat) => {
-                        createKeyLayout(document, event, boat);
-                    })
-                    console.log('buttons should be displaying');
-                }
-                
-                
-                
+                    [engine, world, level, boats] = await gameSetup(p, levelData, level, boats, engine, world);
 
-                console.log('boats array outside of game module:')
-                console.log(boats)
+
+                    console.log('boats length in setup:', boats.length)
+
+                    console.log('********** current test location: ************')
+                    console.log("boat array: ", boats)
+
+                    let event = e; // makes it possible to pass touch or click event into loop below:
+                    console.log(event)
+                    console.log('array length:', boats.length)
+                    
+                    boats.forEach((boat) => {
+                        console.log('in boat loop...')
+                        createKeyLayout(document, event, boat);
+                    });
+
+                }
                 p.draw = async function() {
                     await gameLoop(p, engine, world, level, boats);
                 }

@@ -1,7 +1,7 @@
 // document is the object buttons are being added and removed from
 export default async function createButtons(document, boat) {
 
-    console.log('in create buttons function')
+    console.log('in create buttons function!!')
     // create elements
     const forwardButton = document.createElement('button');
     forwardButton.textContent = '^';

@@ -3,6 +3,6 @@ export default async function loadLevelData(levelNumber) {
     const response = await fetch(`/level/${levelNumber}`)
     // convert response to json data
     const jsonData = await response.json()
-    console.log('loadLevelData funtion: ', jsonData)
+    
     return jsonData;
 }
