@@ -39,48 +39,40 @@ export default async function createButtons(document, boat) {
 
     // add press and release event listeners to each button
     // forward press
-    forwardButton.addEventListener('touchstart', (e) => {
-        console.log(`pressed: ${p.UP_ARROW}`);
-        e.preventDefault(); // no right-click dialog comes up to mess up the experience
-        boat.checkForPress(p.UP_ARROW); // sending fake action to simulate forward key press
+    forwardButton.addEventListener('touchstart', (event) => {    
+        event.preventDefault(); // no right-click dialog comes up to mess up the experience
+        boat.checkForPress(boat.forwardKey); // sending fake action to simulate forward key press
     });
     // forward release
     forwardButton.addEventListener('touchend', () => {
-        console.log(`released: ${p.UP_ARROW}`);
-        boat.checkForRelease(p.UP_ARROW); // sending fake action to simulate forward key press
+        boat.checkForRelease(boat.forwardKey); // sending fake action to simulate forward key press
     });
     // reverse press
-    reverseButton.addEventListener('touchstart', (e) => {
-        console.log(`pressed: ${p.DOWN_ARROW}`);
-        e.preventDefault();
-        boat.checkForPress(p.DOWN_ARROW); // sending fake action to simulate forward key press
+    reverseButton.addEventListener('touchstart', (event) => {
+        event.preventDefault();
+        boat.checkForPress(boat.reverseKey); // sending fake action to simulate forward key press
     }); 
     // reverse release
     reverseButton.addEventListener('touchend', () => {
-        console.log(`released: ${p.DOWN_ARROW}`);
-        boat.checkForRelease(p.DOWN_ARROW); // sending fake action to simulate forward key press
+        boat.checkForRelease(boat.reverseKey); // sending fake action to simulate forward key press
     });
     // left press
-    leftButton.addEventListener('touchstart', (e) => {
-        console.log(`pressed: ${p.LEFT_ARROW}`);
-        e.preventDefault();
-        boat.checkForPress(p.LEFT_ARROW); // sending fake action to simulate forward key press
+    leftButton.addEventListener('touchstart', (event) => {
+        event.preventDefault();
+        boat.checkForPress(boat.leftKey); // sending fake action to simulate forward key press
     }); 
     // left release
     leftButton.addEventListener('touchend', () => {
-        console.log(`released: ${p.LEFT_ARROW}`);
-        boat.checkForRelease(p.LEFT_ARROW); // sending fake action to simulate forward key press
+        boat.checkForRelease(boat.leftKey); // sending fake action to simulate forward key press
     });
     // right press
-    rightButton.addEventListener('touchstart', (e) => {
-        console.log(`pressed: ${p.RIGHT_ARROW}`);
-        e.preventDefault();
-        boat.checkForPress(p.RIGHT_ARROW); // sending fake action to simulate forward key press
+    rightButton.addEventListener('touchstart', (event) => {
+        event.preventDefault();
+        boat.checkForPress(boat.rightKey); // sending fake action to simulate forward key press
     }); 
     // right release
     rightButton.addEventListener('touchend', () => {
-        console.log(`released: ${p.RIGHT_ARROW}`);
-        boat.checkForRelease(p.RIGHT_ARROW); // sending fake action to simulate forward key press
+        boat.checkForRelease(boat.rightKey); // sending fake action to simulate forward key press
     });
 
 }

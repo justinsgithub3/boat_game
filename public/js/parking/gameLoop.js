@@ -3,7 +3,6 @@ import { Engine, Composite, Bodies, Body } from 'matter-js';
 // game will loop in here
 // this function will be called repeatedly
 export default async function gameLoop(p, engine, world, level, boats) {
-    console.log('game loop')
 
     p.background(30, 80, 160); // color background of canvas : light blue
     // update physics
