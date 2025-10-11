@@ -4,7 +4,7 @@ import createButtons from './mobile/buttons.js'
 // function creates a new game button
 export default async function createKeyLayout(document, e, boat) {
     console.log('in layout...:')
-    console.log(e)
+    console.log(e.pointerType)
 
     if (e.pointerType == 'touch') {
         console.log('creating buttons...')

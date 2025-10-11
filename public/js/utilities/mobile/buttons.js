@@ -74,5 +74,5 @@ export default async function createButtons(document, boat) {
     rightButton.addEventListener('touchend', () => {
         boat.checkForRelease(boat.rightKey); // sending fake action to simulate forward key press
     });
-
+    console.log('done with create buttons')
 }
