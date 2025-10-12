@@ -1,4 +1,4 @@
-export default async function createKeys(document, boat) {
+export default async function createKeys(boat) {
     console.log('in create keys function')
     // if key press, send key code to 
     document.addEventListener('keydown', function(event) {

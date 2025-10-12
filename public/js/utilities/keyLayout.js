@@ -2,17 +2,18 @@ import createKeys from './computer/keys.js';
 import createButtons from './mobile/buttons.js'
 
 // function creates a new game button
-export default async function createKeyLayout(document, e, boat) {
+export default async function createKeyLayout(pointerType, boat) {
     console.log('in layout...:')
-    console.log(e.pointerType)
+    console.log(pointerType)
+    console.log(boat)
 
-    if (e.pointerType == 'touch') {
+    if (pointerType == 'touchstart') {
         console.log('creating buttons...')
-        createButtons(document, boat);
+        createButtons(boat);
     } 
     else { // already is laptop. Default
         console.log('creating keys...')
-        createKeys(document, boat);
+        createKeys(boat);
     } 
 
 }

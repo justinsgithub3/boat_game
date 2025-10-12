@@ -1,5 +1,5 @@
 // document is the object buttons are being added and removed from
-export default async function createButtons(document, boat) {
+export default async function createButtons(boat) {
 
     console.log('in create buttons function!!')
     // create elements

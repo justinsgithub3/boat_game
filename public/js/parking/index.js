@@ -1,5 +1,5 @@
 // import p5 and game engine
-import p5 from '../p5-wrapper.js';
+//import p5 from '../p5-wrapper.js';
 import { Engine, Composite, Bodies, Body } from 'matter-js';
 
 // testing levels
@@ -18,7 +18,7 @@ import gameSetup from './gameSetup.js';
 // retrieve level data from file system with this import
 import loadLevelData from './assets/loadLevel.js';
 
-DeviceMotionEvent.requestPermission();
+
 document.addEventListener("DOMContentLoaded", async () => {
     try {
         // create a list of buttons with each level
@@ -36,7 +36,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         // create a button for each level. The level number will be the buttons id
         for (let i = 1; i <= levelCount; i++) {
-            
             // create button - button is inside the canvas
             const buttonEle = document.createElement('button');
             // button text
@@ -46,17 +45,23 @@ document.addEventListener("DOMContentLoaded", async () => {
             // append element to element - canvasTarget
             canvasTarget.appendChild(buttonEle);
             // add a click event to every button
-            buttonEle.addEventListener("click", async (e) => {
-                await buttonClick(e);
+            buttonEle.addEventListener("touchstart", (e) => { // only works on mobile *******
+                buttonClick(e);
             })
+            buttonEle.addEventListener("click", (e) => { // only works on mobile *******
+                buttonClick(e);
+            })
+
         }
+
     }
     catch (error) {
         return Promise.reject(error)
     }
+    
 })
 
-
+// try to pass eve
 async function buttonClick(e) {
             // level data
             let levelData;
@@ -64,46 +69,51 @@ async function buttonClick(e) {
                 // get button Id             I left ids as level-# instead of just #. This makes styling the front-end easier.
                 const buttonId = e.currentTarget.id;
                 // parse id for level number
-                const levelNumber = buttonId.substr(buttonId.length - 1);
+                const levelNumber = buttonId.split('-')[1];
                 // json levelData
                 levelData = await loadLevelData(levelNumber);
             }
             catch (error) {
                 console.log(error, 'could not load level data');
             }
-
+            
             // {..}
-
+            console.log('clearing')
             // clear all game buttons
             const canvasTarget = document.getElementById("canvas-target");
+
+
             canvasTarget.innerHTML = "";
-            
+
+            let count = 0;
+            while (count < 50000) {
+                count++;
+            }
+
+
             let sketch = new p5((p) => {
                 let boats = [];
                 let engine, world;
                 let level;
+                console.log('here')
+            
                 p.setup = async function() {
-                    [engine, world, level, boats] = await gameSetup(p, levelData, level, boats, engine, world);
-
-
-                    console.log('boats length in setup:', boats.length)
-
-                    console.log('********** current test location: ************')
-                    console.log("boat array: ", boats)
-
-                    let event = e; // makes it possible to pass touch or click event into loop below:
-                    console.log(event)
-                    console.log('array length:', boats.length)
                     
-                    boats.forEach((boat) => {
-                        console.log('in boat loop...')
-                        createKeyLayout(document, event, boat);
-                    });
-
+                    [engine, world, level, boats] = await gameSetup(p, levelData, level, boats, engine, world);
+                    //add button calls here
+                    const pointerType = e.type;
+                    for (const boat of boats) {
+                        await createKeyLayout(pointerType, boat);
+                    }
                 }
+                
                 p.draw = async function() {
                     await gameLoop(p, engine, world, level, boats);
                 }
-            })  
+
+            })
+
+            
+            
 }
 

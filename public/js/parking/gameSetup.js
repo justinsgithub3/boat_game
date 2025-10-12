@@ -5,7 +5,7 @@ import LevelBuilder from './assets/LevelBuilder.js';
 import createKeyLayout from '../utilities/keyLayout.js';
 
 export default async function gameSetup(p, levelJson, level, boats, engine, world) {
-    let canvas = p.createCanvas(1000, 700); // create canvas elelement
+    let canvas = p.createCanvas(window.outerWidth, window.outerHeight); // create canvas elelement
     canvas.parent("canvas-target");         // append canvas to div element
     // create physics engine from matter
     engine = Engine.create();
@@ -17,7 +17,7 @@ export default async function gameSetup(p, levelJson, level, boats, engine, worl
     
     // make this dynamic later*
     // create boat instance : (width, height, up, down, left, right)
-    let boat = new MotorBoat(50, 25, p.UP_ARROW, p.DOWN_ARROW, p.LEFT_ARROW, p.RIGHT_ARROW);
+    let boat = new MotorBoat(50, 25, 38, 40, 37, 39);
     // add boat instance to array
     boats.push(boat);
     // creates rigid body for the boat1 object using Matter.Bodies module
