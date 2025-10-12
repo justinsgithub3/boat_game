@@ -7,7 +7,7 @@ export default async function createKeyLayout(pointerType, boat) {
     console.log(pointerType)
     console.log(boat)
 
-    if (pointerType == 'touchstart') {
+    if (pointerType == 'touchend') {
         console.log('creating buttons...')
         createButtons(boat);
     } 

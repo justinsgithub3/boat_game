@@ -45,10 +45,12 @@ document.addEventListener("DOMContentLoaded", async () => {
             // append element to element - canvasTarget
             canvasTarget.appendChild(buttonEle);
             // add a click event to every button
-            buttonEle.addEventListener("touchstart", (e) => { // only works on mobile *******
+            buttonEle.addEventListener("touchend", (e) => { // only works on mobile *******
+                e.preventDefault();
                 buttonClick(e);
             })
             buttonEle.addEventListener("click", (e) => { // only works on mobile *******
+                e.preventDefault();
                 buttonClick(e);
             })
 
