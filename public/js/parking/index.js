@@ -98,10 +98,9 @@ async function buttonClick(e) {
                 console.log('here')
             
                 p.setup = async function() {
-                    
-                    [engine, world, level, boats] = await gameSetup(p, levelData, level, boats, engine, world);
-                    //add button calls here
                     const pointerType = e.type;
+                    [engine, world, level, boats] = await gameSetup(p, levelData, level, boats, engine, world, pointerType);
+                    //add button calls here
                     for (const boat of boats) {
                         await createKeyLayout(pointerType, boat);
                     }
