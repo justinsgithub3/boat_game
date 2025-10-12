@@ -63,6 +63,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 // try to pass eve
 async function buttonClick(e) {
+            
             // level data
             let levelData;
             try {
@@ -85,10 +86,7 @@ async function buttonClick(e) {
 
             canvasTarget.innerHTML = "";
 
-            let count = 0;
-            while (count < 50000) {
-                count++;
-            }
+
 
 
             let sketch = new p5((p) => {
@@ -99,6 +97,7 @@ async function buttonClick(e) {
             
                 p.setup = async function() {
                     const pointerType = e.type;
+                    console.log(pointerType);
                     [engine, world, level, boats] = await gameSetup(p, levelData, level, boats, engine, world, pointerType);
                     //add button calls here
                     for (const boat of boats) {
