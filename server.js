@@ -39,7 +39,7 @@ app.get('/level/:id', async (req, res) => {
     try { 
         const data = await fs.readFile(filePath, 'utf8');
         const jsonData = JSON.parse(data);
-        console.log(jsonData)
+        console.log(`a user requested level ${levelId}`)
         res.type('application/json').send(jsonData);
 
     } catch (error) {
@@ -53,20 +53,32 @@ app.get('/levels', async (req, res) => {
     try { 
         const files = await fs.readdir(filePath);
         const fileCount = files.length;
-        console.log("Number of files in levels: ", fileCount);
-
         // put file count in a json format
         const levelCount = {"count": fileCount};
-
         // send json to client
         res.type('application/json').send(levelCount);
-
     }
     catch (error) {
         return res.status(404).json({error: 'No levels found' });
     }
 })
 
+// explore mode
+app.get('/explore/:id', async (req, res) => {
+    //const levelId = req.params.id;
+    const levelId = 1;                                          // currently anything deafaults to the first file
+    const filePath = path.join(__dirname, 'src', `/explore/${levelId}.json`);
+
+    try { 
+        const data = await fs.readFile(filePath, 'utf8');
+        const jsonData = JSON.parse(data);
+        console.log(`a user requested level ${levelId}`)
+        res.type('application/json').send(jsonData);
+
+    } catch (error) {
+        return res.status(404).json({error: 'Level not found' });
+    }
+})
 
 
 app.listen(port, () => {

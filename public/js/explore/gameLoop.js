@@ -8,6 +8,20 @@ export default async function gameLoop(p, engine, world, level, boats) {
     // update physics
     Engine.update(engine);
 
+    // get boat body ------------------------------------- test vvv
+    const playerBoat = boats[0];
+    const boatBody = playerBoat.body;
+
+    p.push();
+
+    const offsetX = -boatBody.position.x + p.width / 4;  
+    const offsetY = -boatBody.position.y + p.height / 2;
+
+    p.translate(offsetX, offsetY);
+
+
+    //  ------------------------------------- test ^^^
+
     boats.forEach((boat) => {
         // get rigid body, force direction, and force size from instance
         let boatData = boat.getForcePosition();
@@ -19,4 +33,6 @@ export default async function gameLoop(p, engine, world, level, boats) {
 
     // draw level
     level.draw(p);
+
+    p.pop(); // test *****
 }

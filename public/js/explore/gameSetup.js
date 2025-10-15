@@ -4,7 +4,7 @@ import LevelBuilder from './assets/LevelBuilder.js';
 // create input layout
 import createKeyLayout from '../utilities/keyLayout.js';
 
-export default async function gameSetup(p, levelJson, level, boats, engine, world, pointerType) {
+export default async function gameSetup(p, levelJson, level, boats, pointerType) {
 
     let canvas;
     // mobile
@@ -18,8 +18,8 @@ export default async function gameSetup(p, levelJson, level, boats, engine, worl
     
     canvas.parent("canvas-target");         // append canvas to div element
     // create physics engine from matter
-    engine = Engine.create();
-    world = engine.world;
+    let engine = Engine.create();
+    let world = engine.world;
                 
     // set up physics
     engine.gravity.x = 0;
