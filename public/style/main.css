@@ -4,11 +4,9 @@ html, body {
   height: 100%;
   display: flex;
   flex-direction: column;
-  font-size: 1.5em;
 }
 
 button {
-  font-size: 1.2em;
   width: auto;
 }
 
@@ -49,3 +47,13 @@ button {
 /* Right side: Left + Right side by side */
 #left-button  { bottom: 20px; right: 80px; }
 #right-button { bottom: 20px; right: 20px; }
+
+
+#stopwatch {
+  position: fixed;
+  top: 10px; /* distance from the top of the screen */
+  left: 50%;
+  transform: translateX(-50%);
+  color: darkblue;
+  z-index: 1000; /* make sure it's on top */
+}

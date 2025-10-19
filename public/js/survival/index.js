@@ -38,12 +38,16 @@ document.addEventListener("DOMContentLoaded", async () => {
             e.preventDefault();
             buttonClick(e);
             addRestartButton();
+            startTimer();
         })
         buttonEle.addEventListener("click", (e) => { // only works on mobile *******
             e.preventDefault();
             buttonClick(e);
             // restart world page
             addRestartButton();
+            // start a timer
+            startTimer();
+
 
         })
     }
@@ -114,3 +118,30 @@ async function addRestartButton() {
 
     menu.appendChild(restartButton);
 }
+
+
+
+/* thrown together... */
+let timerEle = document.querySelector("#stopwatch");
+let elapsedTime = 0;
+let stopwatchInterval;
+let startTime;
+async function startTimer() {
+    startTime = new Date().getTime(); // get the starting time by subtracting the elapsed paused time from the current time
+    stopwatchInterval = setInterval(updateStopwatch, 1000); // update every second
+}
+
+async function updateStopwatch() {
+    let currentTime = new Date().getTime(); // get current time in milliseconds
+    let elapsedTime = currentTime - startTime;
+    let seconds = Math.floor(elapsedTime / 1000) % 60; // calculate seconds
+    let minutes = Math.floor(elapsedTime / 1000 / 60) % 60; // calculate minutes
+    let hours = Math.floor(elapsedTime / 1000 / 60 / 60); // calculate hours
+    let displayTime = pad(hours) + ":" + pad(minutes) + ":" + pad(seconds); // format display time
+    document.getElementById("stopwatch").innerHTML = displayTime;
+}
+function pad(number) {
+// add a leading zero if the number is less than 10
+return (number < 10 ? "0" : "") + number;
+}
+
