@@ -19,4 +19,5 @@ export default async function gameLoop(p, engine, world, level, boats) {
 
     // draw level
     level.draw(p);
+
 }

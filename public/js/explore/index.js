@@ -37,10 +37,14 @@ document.addEventListener("DOMContentLoaded", async () => {
         buttonEle.addEventListener("touchend", (e) => { // only works on mobile *******
             e.preventDefault();
             buttonClick(e);
+            addRestartButton();
         })
         buttonEle.addEventListener("click", (e) => { // only works on mobile *******
             e.preventDefault();
             buttonClick(e);
+            // restart world page
+            addRestartButton();
+
         })
     }
     catch (error) {
@@ -98,5 +102,15 @@ async function buttonClick(e) {
                 }
 
             })      
+
 }
 
+async function addRestartButton() {
+    let menu = document.querySelector(".menu");
+
+    let restartButton = document.createElement("a");
+    restartButton.href = "/explore"
+    restartButton.textContent = "restart";
+
+    menu.appendChild(restartButton);
+}

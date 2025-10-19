@@ -2,9 +2,12 @@ import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url'; 
 import { promises as fs} from 'fs'; // allows for async file reading
-
+//import cookieParser from 'cookie-parser';
 
 const app = express();
+
+// adds a cookie property to web request obj. and response obj.
+//app.use(cookieParser());
 
 // get the directory name
 
@@ -40,6 +43,7 @@ app.get('/level/:id', async (req, res) => {
         const data = await fs.readFile(filePath, 'utf8');
         const jsonData = JSON.parse(data);
         console.log(`a user requested level ${levelId}`)
+        
         res.type('application/json').send(jsonData);
 
     } catch (error) {
@@ -72,13 +76,31 @@ app.get('/explore/:id', async (req, res) => {
     try { 
         const data = await fs.readFile(filePath, 'utf8');
         const jsonData = JSON.parse(data);
-        console.log(`a user requested level ${levelId}`)
+        console.log(`a user requested the world file`)
         res.type('application/json').send(jsonData);
 
     } catch (error) {
         return res.status(404).json({error: 'Level not found' });
     }
 })
+
+// survival mode
+app.get('/survival/:id', async (req, res) => {
+    //const levelId = req.params.id;
+    const levelId = 1;                                          // currently anything deafaults to the first file
+    const filePath = path.join(__dirname, 'src', `/survival/${levelId}.json`);
+
+    try { 
+        const data = await fs.readFile(filePath, 'utf8');
+        const jsonData = JSON.parse(data);
+        console.log(`a user requested the game file`)
+        res.type('application/json').send(jsonData);
+
+    } catch (error) {
+        return res.status(404).json({error: 'Level not found' });
+    }
+})
+
 
 
 app.listen(port, () => {

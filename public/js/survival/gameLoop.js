@@ -2,20 +2,22 @@ import { Engine, Composite, Bodies, Body, Render } from 'matter-js';
 
 // game will loop in here
 // this function will be called repeatedly
+
+// variable for moving screen to the right
+let cameraX = 0;
+
 export default async function gameLoop(p, engine, world, level, boats) {
+  
 
     p.background(30, 80, 160); // color background of canvas : light blue
     // update physics
     Engine.update(engine);
 
-    const playerBoat = boats[0];
-    const boatBody = playerBoat.body;
+    // increment camera offset
+    cameraX += 2; // change value to adjust speed
 
-
-    const offsetX = -boatBody.position.x + p.width / 2;  
-    const offsetY = -boatBody.position.y + p.height / 2;
-
-    p.translate(offsetX, offsetY);
+    // scroll to the left, camera moving right
+    p.translate(-cameraX, 0);
 
     boats.forEach((boat) => {
         // get rigid body, force direction, and force size from instance

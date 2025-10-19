@@ -48,10 +48,14 @@ document.addEventListener("DOMContentLoaded", async () => {
             buttonEle.addEventListener("touchend", (e) => { // only works on mobile *******
                 e.preventDefault();
                 buttonClick(e);
+                // add 'back to levels' button
+                addLevelsButton();
             })
             buttonEle.addEventListener("click", (e) => { // only works on mobile *******
                 e.preventDefault();
                 buttonClick(e);
+                // add 'back to levels' button
+                addLevelsButton();
             })
 
         }
@@ -113,7 +117,16 @@ async function buttonClick(e) {
 
             })
 
-            
-            
+        
+}
+
+async function addLevelsButton() {
+    let menu = document.querySelector(".menu");
+
+    let levelsButton = document.createElement("a");
+    levelsButton.href = "/parking"
+    levelsButton.textContent = "levels";
+
+    menu.appendChild(levelsButton);
 }
 

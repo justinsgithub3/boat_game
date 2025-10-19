@@ -1,4 +1,4 @@
-import { Engine, Composite, Bodies, Body } from 'matter-js';
+import { Engine, Composite, Bodies, Render, Body } from 'matter-js';
 import MotorBoat from '../assets/boats/MotorBoat.js';
 import LevelBuilder from './assets/LevelBuilder.js';
 // create input layout
@@ -20,7 +20,7 @@ export default async function gameSetup(p, levelJson, level, boats, engine, worl
     // create physics engine from matter
     engine = Engine.create();
     world = engine.world;
-                
+
     // set up physics
     engine.gravity.x = 0;
     engine.gravity.y  = 0;
