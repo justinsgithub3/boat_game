@@ -22,6 +22,7 @@ export default async function gameSetup(p, levelJson, level, boats, pointerType)
     let world = engine.world;
 
     // added ----------------- v
+    /*
     const render = Render.create({
         element: document.body, // or a specific DOM element
         engine: engine,
@@ -34,6 +35,7 @@ export default async function gameSetup(p, levelJson, level, boats, pointerType)
         }
     });
     Render.run(render);
+    */
     // added ----------------- ^
                 
     // set up physics
