@@ -8,6 +8,14 @@ export default async function gameLoop(p, engine, world, level, boats) {
     // update physics
     Engine.update(engine);
 
+    /* only adding boat following until I found out how to reformat sizing of screens to iphone */
+    const playerBoat = boats[0];
+    const boatBody = playerBoat.body;
+    const offsetX = -boatBody.position.x + p.width / 2;  
+    const offsetY = -boatBody.position.y + p.height / 2;
+
+    p.translate(offsetX, offsetY);
+
     boats.forEach((boat) => {
         // get rigid body, force direction, and force size from instance
         let boatData = boat.getForcePosition();
