@@ -1,5 +1,5 @@
 import { Engine, Composite, Bodies, Body, Render, Vertices } from 'matter-js';
-import MotorBoat from '../assets/boats/MotorBoatTwin.js';
+import CargoShip from '../assets/boats/CargoShip.js';
 import LevelBuilder from './assets/LevelBuilder.js';
 // create input layout
 import createKeyLayout from '../utilities/keyLayout.js';
@@ -13,7 +13,7 @@ export default async function gameSetup(p, levelJson, level, boats, pointerType)
     }
     // computer
     else { 
-        canvas = p.createCanvas(window.innerWidth, 675); // create canvas elelement
+        canvas = p.createCanvas(window.innerWidth, 600); // create canvas elelement
     }
     
     canvas.parent("canvas-target");         // append canvas to div element
@@ -44,7 +44,7 @@ export default async function gameSetup(p, levelJson, level, boats, pointerType)
     
     // make this dynamic later*
     // create boat instance : (width, height, up, down, left, right) ( forward speed, reverse speed)
-    let boat = new MotorBoat(50, 25, 38, 40, 37, 39, 0.002, -0.001);
+    let boat = new CargoShip(300, 90, 38, 40, 37, 39, 0.02, -0.01);
     // add boat instance to array
     boats.push(boat);
     // creates rigid body for the boat1 object using Matter.Bodies module
