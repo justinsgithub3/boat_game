@@ -218,8 +218,8 @@ export default class CargoShip {
 
         // Create the body using centered vertices
         this.body = bodies.fromVertices(200, -200, [this.vertices], {
-            friction: 0.0001,
-            frictionAir: 0.05
+            friction: 0.5,
+            frictionAir: 0.01
         }, true);
     }
 
@@ -235,5 +235,4 @@ export default class CargoShip {
             y: ySum / vertices.length
         };
     }
-
 }

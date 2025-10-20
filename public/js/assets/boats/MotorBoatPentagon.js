@@ -199,7 +199,7 @@ export default class MotorBoat {
         }));
 
         // Create the body using centered vertices
-        this.body = bodies.fromVertices(200, 200, [this.vertices], {
+        this.body = bodies.fromVertices(200, 400, [this.vertices], {
             friction: 0.0001,
             frictionAir: 0.05
         }, true);

@@ -13,7 +13,7 @@ export default async function gameSetup(p, levelJson, level, boats, pointerType)
     }
     // computer
     else { 
-        canvas = p.createCanvas(window.innerWidth, 600); // create canvas elelement
+        canvas = p.createCanvas(window.innerWidth, window.innerHeight - 150); // create canvas elelement
     }
     
     canvas.parent("canvas-target");         // append canvas to div element
@@ -44,7 +44,7 @@ export default async function gameSetup(p, levelJson, level, boats, pointerType)
     
     // make this dynamic later*
     // create boat instance : (width, height, up, down, left, right) ( forward speed, reverse speed)
-    let boat = new CargoShip(300, 90, 38, 40, 37, 39, 0.02, -0.01);
+    let boat = new CargoShip(300, 90, 38, 40, 37, 39, 0.002, -0.001);
     // add boat instance to array
     boats.push(boat);
     // creates rigid body for the boat1 object using Matter.Bodies module
@@ -63,4 +63,8 @@ export default async function gameSetup(p, levelJson, level, boats, pointerType)
 
 
     return [engine, world, level, boats];
+
+    
 }
+
+

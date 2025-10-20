@@ -3,6 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'url'; 
 import { promises as fs} from 'fs'; // allows for async file reading
 //import cookieParser from 'cookie-parser';
+import { Pool } from 'pg';
 
 const app = express();
 
@@ -18,6 +19,15 @@ app.use(express.static(path.join(__dirname, 'public')))
 const port = process.env.PORT || 8080;
 
 
+
+
+// database stuff - this will run every single request. Make it a module
+const pool = new Pool({
+    connectionString: process.env.CONNECTION_STRING,
+    ssl: {
+        rejectUnauthorized: false // Render uses self-signed certs
+    }
+})
 
 app.get(['/', '/index'], (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'views/index.html'));
@@ -100,6 +110,24 @@ app.get('/survival/:id', async (req, res) => {
         return res.status(404).json({error: 'Level not found' });
     }
 })
+
+// database - testing
+app.get('/databasequery', async (req, res) => {
+    const client = await pool.connect();
+    try { 
+        const { rows } = await client.query('SELECT current_user');
+        const currentUser = rows[0]['current_user'];
+        console.log(currentUser)
+        res.type('application/json').send({"current user" : currentUser});
+      
+    } catch (error) {
+        return res.status(404).json({error: 'Database not found' });
+    } finally {
+        client.release();
+    }
+})
+
+
 
 
 

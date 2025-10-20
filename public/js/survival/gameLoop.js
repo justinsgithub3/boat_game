@@ -4,7 +4,7 @@ import { Engine, Composite, Bodies, Body, Render } from 'matter-js';
 // this function will be called repeatedly
 
 // variable for moving screen to the right
-let cameraX = 0;
+let cameraX = -800;
 
 export default async function gameLoop(p, engine, world, level, boats) {
   
