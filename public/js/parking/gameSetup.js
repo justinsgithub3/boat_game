@@ -13,7 +13,7 @@ export default async function gameSetup(p, levelJson, level, boats, engine, worl
     }
     // computer
     else { 
-        canvas = p.createCanvas(window.innerWidth, 675); // create canvas elelement
+        canvas = p.createCanvas(window.innerWidth, 600); // create canvas elelement
     }
     
     canvas.parent("canvas-target");         // append canvas to div element
