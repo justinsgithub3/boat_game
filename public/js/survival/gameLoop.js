@@ -16,8 +16,13 @@ export default async function gameLoop(p, engine, world, level, boats) {
     // increment camera offset
     cameraX += 2; // change value to adjust speed
 
+    /* only adding boat following until I found out how to reformat sizing of screens to iphone */
+    const playerBoat = boats[0];
+    const boatBody = playerBoat.body;
+    const offsetY = -boatBody.position.y + p.height / 2;
+
     // scroll to the left, camera moving right
-    p.translate(-cameraX, 0);
+    p.translate(-cameraX, offsetY);
 
     boats.forEach((boat) => {
         // get rigid body, force direction, and force size from instance
