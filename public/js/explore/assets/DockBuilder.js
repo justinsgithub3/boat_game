@@ -10,8 +10,6 @@ export default class DockBuilder {
         this.body;
 
     }
-g
-
     getBody (bodies) {
         this.body = bodies.rectangle(this.x, this.y, this.w, this.h, {isStatic: true}); // static param. makes the dock immovable
     }

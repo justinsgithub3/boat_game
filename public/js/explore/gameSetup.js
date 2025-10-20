@@ -43,8 +43,8 @@ export default async function gameSetup(p, levelJson, level, boats, pointerType)
     engine.gravity.y  = 0;
     
     // make this dynamic later*
-    // create boat instance : (width, height, up, down, left, right)
-    let boat = new MotorBoat(50, 25, 38, 40, 37, 39);
+    // create boat instance : (width, height, up, down, left, right) ( forward speed, reverse speed)
+    let boat = new MotorBoat(50, 25, 38, 40, 37, 39, 0.002, -0.001);
     // add boat instance to array
     boats.push(boat);
     // creates rigid body for the boat1 object using Matter.Bodies module
