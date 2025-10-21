@@ -27,6 +27,10 @@ a {
   border-color: green;
 }
 
+.leaderboard >  #survival-score-table {
+  margin: auto;
+}
+
 
 button {
   width: auto;

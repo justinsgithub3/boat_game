@@ -8,7 +8,6 @@ let cameraX = -800;
 
 export default async function gameLoop(p, engine, world, level, boats) {
   
-
     p.background(30, 80, 160); // color background of canvas : light blue
     // update physics
     Engine.update(engine);
@@ -24,15 +23,35 @@ export default async function gameLoop(p, engine, world, level, boats) {
     // scroll to the left, camera moving right
     p.translate(-cameraX, offsetY);
 
-    boats.forEach((boat) => {
+    /*boats.forEach((boat) => {
         // get rigid body, force direction, and force size from instance
         let boatData = boat.getForcePosition();
         // apply a force to the rigid body
         Body.applyForce(boatData[0], boatData[1], boatData[2]);
 
         boat.showDrawing(p)
-    });
 
+        // if any boat body crosses over the left edge of the screen
+        if (boat.body.position.x <= cameraX-20) { // (left screen-20) for some recovery chances
+            console.log('closing function...');
+            return 'loop terminated';
+        }
+
+        */
+       for (const boat of boats) {
+            // get rigid body, force direction, and force size from instance
+            const boatData = boat.getForcePosition();
+            Body.applyForce(boatData[0], boatData[1], boatData[2]);
+
+            boat.showDrawing(p);
+
+            if (boat.body.position.x <= cameraX - 20) {
+                console.log('closing function...');
+                p.noLoop();
+                return 'loop terminated'; 
+            }
+        }
     // draw level
     level.draw(p);
+    return 'loop not terminated';
 }

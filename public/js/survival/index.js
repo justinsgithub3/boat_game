@@ -18,6 +18,7 @@ import gameSetup from './gameSetup.js';
 // retrieve level data from file system with this import
 import loadGameData from './assets/loadGame.js';
 
+let displayTime;
 
 document.addEventListener("DOMContentLoaded", async () => {
     try {
@@ -81,13 +82,15 @@ async function buttonClick(e) {
 
             canvasTarget.innerHTML = "";
 
+
             let sketch = new p5((p) => {
                 let boats = [];
                 let engine, world;
                 let level;
                 let gameReady = false; // flag to ensure setup function is done before draw function can run
-    
-            
+                let gameLoopStatus = 'not terminated';
+
+
                 p.setup = async function() {
                     const pointerType = e.type;
                     console.log(pointerType);
@@ -98,13 +101,23 @@ async function buttonClick(e) {
                     }
                     gameReady = true;
                 }
+                let gameStatus;
                 // p.draw is being called before p.setup is done running
                 p.draw = async function() {
                     if (gameReady) {
-                        await gameLoop(p, engine, world, level, boats);
-                    }
-                }
+                        // run game loop
+                        gameStatus = await gameLoop(p, engine, world, level, boats);
+                        console.log(`gameStatus: ${gameStatus}`)
 
+                        if (gameStatus == 'loop terminated') {
+                            const username = prompt("You died. Enter your name for the leaderboard.\n" +
+                                                    "Click restart to play again.");
+                            console.log(username)
+                            alert(`${username} had a time of ${displayTime}`);
+                            await sendScore(username, displayTime);
+                        }
+                    } 
+                }
             })      
 
 }
@@ -137,7 +150,7 @@ async function updateStopwatch() {
     let seconds = Math.floor(elapsedTime / 1000) % 60; // calculate seconds
     let minutes = Math.floor(elapsedTime / 1000 / 60) % 60; // calculate minutes
     let hours = Math.floor(elapsedTime / 1000 / 60 / 60); // calculate hours
-    let displayTime = pad(hours) + ":" + pad(minutes) + ":" + pad(seconds); // format display time
+    displayTime = pad(hours) + ":" + pad(minutes) + ":" + pad(seconds); // format display time
     document.getElementById("stopwatch").innerHTML = displayTime;
 }
 function pad(number) {
@@ -145,3 +158,24 @@ function pad(number) {
 return (number < 10 ? "0" : "") + number;
 }
 
+
+// post user data to server
+async function sendScore(username, survivaltime) {
+    const data = { 
+                    name : username,
+                    time : survivaltime
+                };
+
+    try {
+        const response = await fetch('/survival', 
+            {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json'},
+                body: JSON.stringify(data)
+            }
+        )
+    }
+    catch {
+        console.log('Error trying to send results to server.')
+    }
+}

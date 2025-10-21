@@ -7,8 +7,10 @@ import { Pool } from 'pg';
 
 const app = express();
 
-// delete this
-//CONNECTION_STRING=postgresql://justin:7DJoOb6DLtxGOzSJuFRFaTe9QilSqQDr@dpg-d3r8kk0gjchc73btq10g-a.virginia-postgres.render.com/postgres_boatgame
+// parse json data
+app.use(express.json());
+
+
 // database stuff - this will run every single request. Make it a module
 // put pool, dotenv, in a module and export the pool
 
@@ -104,6 +106,8 @@ app.get('/survival/:id', async (req, res) => {
     const levelId = 1;                                          // currently anything deafaults to the first file
     const filePath = path.join(__dirname, 'src', `/survival/${levelId}.json`);
 
+
+
     try { 
         const data = await fs.readFile(filePath, 'utf8');
         const jsonData = JSON.parse(data);
@@ -116,17 +120,13 @@ app.get('/survival/:id', async (req, res) => {
 })
 
 // database - testing
-app.get('/databasequery', async (req, res) => {
-
-
-
+app.get('/survival-data', async (req, res) => {
 
     const client = await pool.connect();
     try { 
-        const { rows } = await client.query('SELECT current_user');
-        const currentUser = rows[0]['current_user'];
-        console.log(currentUser)
-        res.type('application/json').send({"current user" : currentUser});
+        // add a seleect statement here
+        const { rows } = await client.query("SELECT name, time FROM survival_times");
+        res.type('application/json').send({rows});
       
     } catch (error) {
         return res.status(404).json({error: 'Database not found' });
@@ -134,6 +134,26 @@ app.get('/databasequery', async (req, res) => {
         client.release();
     }
 })
+
+// posting survival data to database
+app.post('/survival', async (req, res) => {
+    const name = req.body.name;
+    const time = req.body.time;
+
+    const client = await pool.connect();
+    try {
+        // move to a database module
+        await client.query("INSERT INTO survival_times (name, time) VALUES ($1, $2)", [name, time]);
+
+    } catch (err) {
+        console.error(err);
+        console.log("Error uploading data");
+    } finally {
+        client.release();
+    }
+});
+
+
 
 
 

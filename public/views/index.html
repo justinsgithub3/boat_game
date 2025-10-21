@@ -16,14 +16,64 @@
         <a href="/explore">Explore</a>
     </div>
 
+    <h2>Survival Scores:</h2>
     <div class="leaderboard" id="survival-leaderboard">
-        <p>Survival leaderboard will go here</p>
+        <table id="survival-score-table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Time</th>
+            </tr>
+        </thead>
+        <tbody id="survival-body" >
+            <!-- JS will insert rows here -->
+        </tbody>
+    </table>
     </div>
 
     <p id="contact-info">Let me know what I should add: couchcaptain1@gmail.com</p>
     <!--
     <script src="../js/bundles/index.bundle.js"></script>
     -->
+
+    <script>
+        
+
+        // anonymous asynchronous function
+        (async () => {
+            console.log('in anonymous function');
+            try {
+                // fetch survival scores
+                const response = await fetch('/survival-data');
+                const data = await response.json();
+                const survivalScores = data.rows;
+                
+                // get table body to add scores to
+                const tbody = document.querySelector('#survival-body');
+
+                survivalScores.forEach(entry => {
+                    console.log(entry)
+                            const row = document.createElement('tr');
+
+                            const nameCell = document.createElement('td');
+                            nameCell.textContent = entry.name;
+
+                            const timeCell = document.createElement('td');
+                            timeCell.textContent = entry.time;
+
+                            row.appendChild(nameCell);
+                            row.appendChild(timeCell);
+
+                            tbody.appendChild(row);
+                });
+            } catch (err) {
+                console.log('Error trying to load scores: ' + err)
+            }
+
+        })(); // makes function call
+
+
+    </script>
 
 </body>
 </html>
