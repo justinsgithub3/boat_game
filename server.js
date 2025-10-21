@@ -7,6 +7,21 @@ import { Pool } from 'pg';
 
 const app = express();
 
+// delete this
+//CONNECTION_STRING=postgresql://justin:7DJoOb6DLtxGOzSJuFRFaTe9QilSqQDr@dpg-d3r8kk0gjchc73btq10g-a.virginia-postgres.render.com/postgres_boatgame
+// database stuff - this will run every single request. Make it a module
+// put pool, dotenv, in a module and export the pool
+
+// import pool from '../db/..'
+
+
+const pool = new Pool({
+    connectionString: process.env.CONNECTION_STRING,
+    ssl: {
+        rejectUnauthorized: false // Render uses self-signed certs
+    }
+})
+
 // adds a cookie property to web request obj. and response obj.
 //app.use(cookieParser());
 
@@ -17,17 +32,6 @@ const __dirname = path.dirname(__filename);
 app.use(express.static(path.join(__dirname, 'public')))
 
 const port = process.env.PORT || 8080;
-
-
-
-
-// database stuff - this will run every single request. Make it a module
-const pool = new Pool({
-    connectionString: process.env.CONNECTION_STRING,
-    ssl: {
-        rejectUnauthorized: false // Render uses self-signed certs
-    }
-})
 
 app.get(['/', '/index'], (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'views/index.html'));
@@ -113,6 +117,10 @@ app.get('/survival/:id', async (req, res) => {
 
 // database - testing
 app.get('/databasequery', async (req, res) => {
+
+
+
+
     const client = await pool.connect();
     try { 
         const { rows } = await client.query('SELECT current_user');
