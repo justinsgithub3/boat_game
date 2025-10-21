@@ -125,7 +125,11 @@ app.get('/survival-data', async (req, res) => {
     const client = await pool.connect();
     try { 
         // add a seleect statement here
-        const { rows } = await client.query("SELECT name, time FROM survival_times");
+        const { rows } = await client.query("SELECT name, time " +
+                                            "FROM survival_times " +
+                                            "ORDER BY time DESC " +
+                                            "LIMIT 15 "
+                                            );
         res.type('application/json').send({rows});
       
     } catch (error) {
