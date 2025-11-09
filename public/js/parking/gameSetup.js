@@ -1,5 +1,5 @@
 import { Engine, Composite, Bodies, Render, Body } from 'matter-js';
-import MotorBoat from '../assets/boats/MotorBoat.js';
+import MotorBoat from '../assets/boats/MotorBoatTwin.js';
 import LevelBuilder from './assets/LevelBuilder.js';
 // create input layout
 import createKeyLayout from '../utilities/keyLayout.js';

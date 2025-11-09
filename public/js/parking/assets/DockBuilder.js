@@ -18,6 +18,7 @@ g
 
     draw(p) {
         p.push();
+        p.rectMode(p.CENTER)
         p.translate(this.x, this.y);       // position of the dock center
         p.fill(150, 100, 60);              // docks are always brown
         p.rect(0, 0, this.w, this.h);

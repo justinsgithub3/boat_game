@@ -110,11 +110,21 @@ async function buttonClick(e) {
                         console.log(`gameStatus: ${gameStatus}`)
 
                         if (gameStatus == 'loop terminated') {
-                            const username = prompt("You died. Enter your name for the leaderboard.\n" +
-                                                    "Click restart to play again.");
-                            console.log(username)
-                            alert(`${username} had a time of ${displayTime}`);
-                            await sendScore(username, displayTime);
+
+                            // prompt for username
+                            let username = prompt(`Enter your name for the leaderboard with a score of ${displayTime}`);
+                                              
+                            while (username == null || username == '') {
+                                username = prompt(`Re-Enter your name for the leaderboard with a score of ${displayTime}`);
+                            }
+                            const response = await sendScore(username, displayTime);
+                            console.log(response);
+                            /*
+                            if (response.ok) {
+                                alert('You score has been uploaded!');
+                            }
+                            */
+                            
                         }
                     } 
                 }
@@ -173,7 +183,9 @@ async function sendScore(username, survivaltime) {
                 headers: { 'Content-Type': 'application/json'},
                 body: JSON.stringify(data)
             }
-        )
+        );
+        console.log(`response in sendScore(): ${response}`);
+        return response;
     }
     catch {
         console.log('Error trying to send results to server.')
